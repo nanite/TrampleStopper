@@ -1,0 +1,64 @@
+buildscript {
+	repositories {
+		jcenter()
+        maven {
+			url = "http://files.minecraftforge.net/maven"
+		}
+        maven {
+			url = "https://plugins.gradle.org/m2/"
+		}
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:+'
+        classpath "gradle.plugin.com.matthewprenger:CurseGradle:+"
+	}
+}
+
+apply plugin: 'maven'
+apply plugin: "com.matthewprenger.cursegradle"
+apply plugin: 'net.minecraftforge.gradle.forge'
+
+def buildVersion = "${mod_verison}"
+
+
+def ENV = System.getenv()
+if (ENV.BUILD_NUMBER) {
+    buildVersion = buildVersion + "." + "${System.getenv().BUILD_NUMBER}"
+}else {
+    buildVersion = buildVersion + ".0-localbeta"
+}
+
+version = "${minecraft_version}-" + buildVersion + "-universal"
+
+group= "com.unrealdinnerbone.${mod_name}"
+archivesBaseName = "${mod_name}"
+
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
+
+minecraft {
+    version = "${minecraft_version}-${forge_version}"
+    runDir = "run"
+    mappings = "${forge_mappings}"
+    useDepAts = true
+
+	replace "@VERSION@", buildVersion
+	replaceIn "Reference.java"
+    replace "@VERSION@", buildVersion
+    replaceIn "mcmod.info"
+}
+
+processResources
+        {
+            from(sourceSets.main.resources.srcDirs) {
+                include 'mcmod.info'
+                expand 'version': buildVersion, 'mcversion': "${minecraft_version}"
+            }
+            from(sourceSets.main.resources.srcDirs) {
+                exclude 'mcmod.info'
+            }
+        }
+
+
+
+

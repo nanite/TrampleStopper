@@ -1,0 +1,16 @@
+[
+{
+  "modid": "tramplestopper",
+  "name": "Trample Stopper",
+  "description": "",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["UnRealDinnerbone"],
+  "credits": "",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
