@@ -58,6 +58,19 @@ processResources
                 exclude 'mcmod.info'
             }
         }
+		
+curseforge {
+	apiKey = project.curse_api_key
+	project {
+		id = project.curse_project_id
+		changelogType = "markdown"
+		changelog = file('changelog.md')
+		releaseType = project.release_type
+		mainArtifact(jar) {
+			displayName = version
+		}
+	}
+}		
 
 
 
