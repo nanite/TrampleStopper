@@ -1,8 +1,6 @@
 package com.unrealdinnerbone.tramplestopper;
 
-import net.minecraft.enchantment.Enchantment;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Enchantments;
 import net.minecraft.inventory.EntityEquipmentSlot;
 import net.minecraft.item.ItemArmor;
@@ -36,13 +34,6 @@ public class TrampleStopper {
     @SubscribeEvent
     public static void onFarmlandTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
         switch (type) {
-
-            case NEVER:
-                event.setCanceled(false);
-                break;
-            case ALWAYS:
-                event.setCanceled(true);
-                break;
             case FEATHER_FALLING:
                 Iterable<ItemStack> armorInventoryList = event.getEntity().getArmorInventoryList();
                 for (ItemStack itemStack : armorInventoryList) {
@@ -55,6 +46,12 @@ public class TrampleStopper {
                         }
                     }
                 }
+                break;
+            case NEVER:
+                event.setCanceled(true);
+                break;
+            case ALWAYS:
+                event.setCanceled(false);
                 break;
             case DEFAULT:
                 break;
