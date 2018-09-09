@@ -26,8 +26,6 @@ def buildVersion = "${mod_verison}"
 def ENV = System.getenv()
 if (ENV.BUILD_NUMBER) {
     buildVersion = buildVersion + "." + "${System.getenv().BUILD_NUMBER}"
-}else {
-    buildVersion = buildVersion + ".0-localbeta"
 }
 
 version = "${minecraft_version}-" + buildVersion + "-universal"
@@ -69,11 +67,10 @@ curseforge {
 		changelog = getGitChangelog
 		releaseType = project.release_type
 		mainArtifact(jar) {
-			displayName = version
+			displayName = "${mod_name}" + version
 		}
 	}
-}		
-
+}
 
 
 
