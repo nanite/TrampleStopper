@@ -11,22 +11,30 @@ import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.fml.client.event.ConfigChangedEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.eventhandler.Event;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-@Config(modid = "tramplestopper")
+
+@Config(modid = TrampleStopper.MOD_ID)
 @Mod.EventBusSubscriber
-@Mod(modid = "tramplestopper", dependencies = "required:forge@[14.23.4.2725,);")
+@Mod(modid = TrampleStopper.MOD_ID, dependencies = "required:forge@[14.23.4.2725,);")
 public class TrampleStopper {
+
+    public static final String MOD_ID = "tramplestopper";
+
+    private static Logger logger;
 
     @Mod.EventHandler
     public static void onPreInit(FMLPreInitializationEvent event) {
-        ConfigManager.sync("tramplestopper", Config.Type.INSTANCE);
+        ConfigManager.sync(MOD_ID, Config.Type.INSTANCE);
     }
 
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
-        if (event.getModID().equals("tramplestopper")) {
-            ConfigManager.sync("tramplestopper", Config.Type.INSTANCE);
+        if (event.getModID().equals(MOD_ID)) {
+            ConfigManager.sync(MOD_ID, Config.Type.INSTANCE);
         }
     }
 
@@ -37,11 +45,12 @@ public class TrampleStopper {
             case FEATHER_FALLING:
                 Iterable<ItemStack> armorInventoryList = event.getEntity().getArmorInventoryList();
                 for (ItemStack itemStack : armorInventoryList) {
-                    if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= 1) {
-                        if (itemStack.getItem() instanceof ItemArmor) {
-                            ItemArmor itemArmor = (ItemArmor) itemStack.getItem();
-                            if (itemArmor.getEquipmentSlot() == EntityEquipmentSlot.FEET) {
+                    if(itemStack.getItem() instanceof ItemArmor) {
+                        ItemArmor amourItem = (ItemArmor) itemStack.getItem();
+                        if(amourItem.getEquipmentSlot() == EntityEquipmentSlot.FEET) {
+                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= 1) {
                                 event.setCanceled(true);
+                                getLogger().debug("Canceled FarmlandTrampleEvent");
                             }
                         }
                     }
@@ -49,6 +58,7 @@ public class TrampleStopper {
                 break;
             case NEVER:
                 event.setCanceled(true);
+                getLogger().debug("Canceled FarmlandTrampleEvent");
                 break;
             case ALWAYS:
                 event.setCanceled(false);
@@ -58,6 +68,8 @@ public class TrampleStopper {
 
         }
     }
+
+
 
     @Config.Comment({
             "When should farmland get trampled",
@@ -72,6 +84,13 @@ public class TrampleStopper {
         ALWAYS,
         FEATHER_FALLING,
         DEFAULT;
+    }
+
+    public static Logger getLogger() {
+        if(logger == null) {
+            logger = LogManager.getLogger(MOD_ID);
+        }
+        return logger;
     }
 }
 
