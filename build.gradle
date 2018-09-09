@@ -67,7 +67,7 @@ curseforge {
 		changelog = getGitChangelog
 		releaseType = project.release_type
 		mainArtifact(jar) {
-			displayName = "${mod_name}" + version
+			displayName = "${mod_name}" + "-" + version
 		}
 	}
 }
