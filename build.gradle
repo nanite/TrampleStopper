@@ -66,7 +66,7 @@ curseforge {
 	project {
 		id = project.curse_project_id
 		changelogType = "markdown"
-		changelog = file('changelog.md')
+		changelog = getGitChangelog
 		releaseType = project.release_type
 		mainArtifact(jar) {
 			displayName = version
