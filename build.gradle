@@ -18,7 +18,6 @@ apply plugin: 'maven'
 apply plugin: "com.matthewprenger.cursegradle"
 apply plugin: 'net.minecraftforge.gradle.forge'
 
-apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
 def buildVersion = "${mod_verison}"
 
@@ -64,7 +63,7 @@ curseforge {
 	project {
 		id = project.curse_project_id
 		changelogType = "markdown"
-		changelog = getGitChangelog
+		changelog = file("changelog.md")
 		releaseType = project.release_type
 		mainArtifact(jar) {
 			displayName = "${mod_name}" + "-" + version

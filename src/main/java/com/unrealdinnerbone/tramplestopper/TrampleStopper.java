@@ -15,8 +15,6 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-
-@Config(modid = TrampleStopper.MOD_ID)
 @Mod.EventBusSubscriber
 @Mod(modid = TrampleStopper.MOD_ID, dependencies = "required:forge@[14.23.4.2725,);")
 public class TrampleStopper {
@@ -40,7 +38,7 @@ public class TrampleStopper {
 
     @SubscribeEvent
     public static void onFarmlandTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
-        switch (type) {
+        switch (TrampleConfig.type) {
             case FEATHER_FALLING:
                 Iterable<ItemStack> armorInventoryList = event.getEntity().getArmorInventoryList();
                 for (ItemStack itemStack : armorInventoryList) {
@@ -68,15 +66,19 @@ public class TrampleStopper {
         }
     }
 
+    @Config(modid = TrampleStopper.MOD_ID)
+    public static class TrampleConfig {
+
+        @Config.Comment({
+                "When should farmland get trampled",
+                "Never: Never trampled farmland",
+                "Always: It Always get trampled",
+                "Default: Normal behavior",
+                "Feather Falling: Does not get trampled with you have feather falling boots"})
+        public static Type type = Type.FEATHER_FALLING;
 
 
-    @Config.Comment({
-            "When should farmland get trampled",
-            "Never: Never trampled farmland",
-            "Always: It Always get trampled",
-            "Default: Normal behavior",
-            "Feather Falling: Does not get trampled with you have feather falling boots"})
-    public static Type type = Type.FEATHER_FALLING;
+    }
 
     public static enum Type {
         NEVER,
@@ -85,6 +87,7 @@ public class TrampleStopper {
         DEFAULT;
     }
 
+
     public static Logger getLogger() {
         if(logger == null) {
             logger = LogManager.getLogger(MOD_ID);
@@ -92,4 +95,6 @@ public class TrampleStopper {
         return logger;
     }
 }
+
+
 
