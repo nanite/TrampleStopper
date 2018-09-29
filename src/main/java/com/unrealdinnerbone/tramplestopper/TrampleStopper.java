@@ -15,6 +15,7 @@ import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@SuppressWarnings({"WeakerAccess", "UnnecessaryEnumModifier"})
 @Mod.EventBusSubscriber
 @Mod(modid = TrampleStopper.MOD_ID, dependencies = "required:forge@[14.23.4.2725,);")
 public class TrampleStopper {
@@ -22,11 +23,6 @@ public class TrampleStopper {
     public static final String MOD_ID = "tramplestopper";
 
     private static Logger logger;
-
-    @Mod.EventHandler
-    public static void onPreInit(FMLPreInitializationEvent event) {
-        ConfigManager.sync(MOD_ID, Config.Type.INSTANCE);
-    }
 
     @SubscribeEvent
     public static void onConfigChanged(ConfigChangedEvent.OnConfigChangedEvent event) {
@@ -84,7 +80,7 @@ public class TrampleStopper {
         NEVER,
         ALWAYS,
         FEATHER_FALLING,
-        DEFAULT;
+        DEFAULT
     }
 
 

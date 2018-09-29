@@ -1,31 +1,30 @@
 buildscript {
 	repositories {
 		jcenter()
-        maven {
+		maven {
+			name = "forge"
 			url = "http://files.minecraftforge.net/maven"
 		}
-        maven {
-			url = "https://plugins.gradle.org/m2/"
+		maven {
+			url "https://plugins.gradle.org/m2/"
+		}
+		maven {
+			name = "sonatype"
+			url = "https://oss.sonatype.org/content/repositories/snapshots/"
 		}
 	}
 	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:+'
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
         classpath "gradle.plugin.com.matthewprenger:CurseGradle:+"
 	}
 }
 
+apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply plugin: "com.matthewprenger.cursegradle"
-apply plugin: 'net.minecraftforge.gradle.forge'
 
 
 def buildVersion = "${mod_verison}"
-
-
-def ENV = System.getenv()
-if (ENV.BUILD_NUMBER) {
-    buildVersion = buildVersion + "." + "${System.getenv().BUILD_NUMBER}"
-}
 
 version = "${minecraft_version}-" + buildVersion + "-universal"
 
@@ -42,22 +41,19 @@ minecraft {
     useDepAts = true
 
 	replace "@VERSION@", buildVersion
-	replaceIn "Reference.java"
-    replace "@VERSION@", buildVersion
-    replaceIn "mcmod.info"
+	replaceIn "SimpleZoom.java"
 }
 
-processResources
-        {
-            from(sourceSets.main.resources.srcDirs) {
-                include 'mcmod.info'
-                expand 'version': buildVersion, 'mcversion': "${minecraft_version}"
-            }
-            from(sourceSets.main.resources.srcDirs) {
-                exclude 'mcmod.info'
-            }
-        }
-		
+processResources {
+	from(sourceSets.main.resources.srcDirs) {
+		include 'mcmod.info'
+		expand 'version': buildVersion, 'mcversion': "${minecraft_version}"
+	}
+	from(sourceSets.main.resources.srcDirs) {
+		exclude 'mcmod.info'
+	}
+}
+	
 curseforge {
 	apiKey = project.curse_api_key
 	project {
