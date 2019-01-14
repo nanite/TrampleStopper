@@ -22,6 +22,7 @@ buildscript {
 apply plugin: 'net.minecraftforge.gradle.forge'
 apply plugin: 'maven'
 apply plugin: "com.matthewprenger.cursegradle"
+apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
 
 def ENV = System.getenv()
@@ -60,7 +61,7 @@ curseforge {
 	project {
 		id = project.curse_project_id
 		changelogType = "markdown"
-		changelog = file("changelog.md")
+		changelog = getGitChangelog
 		releaseType = project.release_type
 		mainArtifact(jar) {
 			displayName = "${mod_name}" + "-" + version
