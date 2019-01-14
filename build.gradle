@@ -24,7 +24,8 @@ apply plugin: 'maven'
 apply plugin: "com.matthewprenger.cursegradle"
 
 
-def buildVersion = "${mod_verison}"
+def ENV = System.getenv()
+def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
 
 version = "${minecraft_version}-" + buildVersion + "-universal"
 
@@ -41,7 +42,7 @@ minecraft {
     useDepAts = true
 
 	replace "@VERSION@", buildVersion
-	replaceIn "SimpleZoom.java"
+	replaceIn "TrampleStopper.java"
 }
 
 processResources {
