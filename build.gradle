@@ -35,6 +35,12 @@ archivesBaseName = "${mod_name}"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+task printInfo() {
+println("Build Info:")
+println("Build Version: " + buildVersion)
+println("Changelog: " + getGitChangelog())
+}
+
 minecraft {
     version = "${minecraft_version}-${forge_version}"
     runDir = "run"
@@ -60,7 +66,7 @@ curseforge {
 	project {
 		id = project.curse_project_id
 		changelogType = "markdown"
-		changelog = getGitChangelog
+		changelog = getGitChangelog()
 		releaseType = project.release_type
 		mainArtifact(jar) {
 			displayName = "${mod_name}" + "-" + version
