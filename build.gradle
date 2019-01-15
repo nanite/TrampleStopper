@@ -24,7 +24,6 @@ apply plugin: 'maven'
 apply plugin: "com.matthewprenger.cursegradle"
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
-
 def ENV = System.getenv()
 def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
 
