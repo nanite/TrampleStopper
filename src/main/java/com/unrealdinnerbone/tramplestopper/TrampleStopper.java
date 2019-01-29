@@ -40,7 +40,7 @@ public class TrampleStopper {
                 for (ItemStack itemStack : armorInventoryList) {
                     if(itemStack.getItem() instanceof ItemArmor) {
                         ItemArmor amourItem = (ItemArmor) itemStack.getItem();
-                        if(amourItem.getEquipmentSlot() == EntityEquipmentSlot.FEET) {
+                        if(amourItem.armorType == EntityEquipmentSlot.FEET) {
                             if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= 1) {
                                 event.setCanceled(true);
                                 getLogger().debug("Canceled FarmlandTrampleEvent");

@@ -1,78 +1,52 @@
 buildscript {
-	repositories {
-		jcenter()
-		maven {
-			name = "forge"
-			url = "http://files.minecraftforge.net/maven"
-		}
-		maven {
-			url "https://plugins.gradle.org/m2/"
-		}
-		maven {
-			name = "sonatype"
-			url = "https://oss.sonatype.org/content/repositories/snapshots/"
-		}
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-        classpath "gradle.plugin.com.matthewprenger:CurseGradle:+"
-	}
+    repositories {
+        jcenter()
+        maven { url = "https://files.minecraftforge.net/maven" }
+    }
+    dependencies {
+        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+    }
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
-apply plugin: 'maven'
-apply plugin: "com.matthewprenger.cursegradle"
-apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
 def ENV = System.getenv()
-def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
+def buildVersion = getBuildVersion()
 
 version = "${minecraft_version}-" + buildVersion + "-universal"
 
-group= "com.unrealdinnerbone.${mod_name}"
+group = "com.unrealdinnerbone.${mod_name}"
 archivesBaseName = "${mod_name}"
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
-task printInfo() {
-println("Build Info:")
-println("Build Version: " + buildVersion)
-println("Changelog: " + getGitChangelog())
-}
-
 minecraft {
-    version = "${minecraft_version}-${forge_version}"
-    runDir = "run"
-    mappings = "${forge_mappings}"
-    useDepAts = true
-
+	if(project.hasProperty("devWorkspace")) {
+		version = project.property("minecraftVersion") + "-" + project.property("forgeVersion")
+		mappings = project.property("mappingsVersion")
+	}else {
+		version = "${minecraft_version}-${forge_version}"
+		mappings = mcp_mappings
+	}
+	runDir = "run"
 	replace "@VERSION@", buildVersion
-	replaceIn "TrampleStopper.java"
+	replaceIn ${main_class}".java"
 }
 
 processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		expand 'version': buildVersion, 'mcversion': "${minecraft_version}"
+		expand 'version': buildVersion, 
+			   'mcversion': "${minecraft_version}"
 	}
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}
 }
-	
-curseforge {
-	apiKey = project.curse_api_key
-	project {
-		id = project.curse_project_id
-		changelogType = "markdown"
-		changelog = getGitChangelog()
-		releaseType = project.release_type
-		mainArtifact(jar) {
-			displayName = "${mod_name}" + "-" + version
-		}
-	}
-}
 
+task getBuildVersion() {
+	return ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
+}
 
 
