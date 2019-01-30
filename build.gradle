@@ -1,17 +1,17 @@
 buildscript {
-    repositories {
-        jcenter()
-        maven { url = "https://files.minecraftforge.net/maven" }
-    }
-    dependencies {
-        classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-    }
+	repositories {
+		jcenter()
+		maven { url = "https://files.minecraftforge.net/maven" }
+	}
+	dependencies {
+		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
+	}
 }
 
 apply plugin: 'net.minecraftforge.gradle.forge'
 
 def ENV = System.getenv()
-def buildVersion = getBuildVersion()
+def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
 
 version = "${minecraft_version}-" + buildVersion + "-universal"
 
@@ -27,26 +27,20 @@ minecraft {
 		mappings = project.property("mappingsVersion")
 	}else {
 		version = "${minecraft_version}-${forge_version}"
-		mappings = mcp_mappings
+		mappings = "${forge_mappings}"
 	}
 	runDir = "run"
 	replace "@VERSION@", buildVersion
-	replaceIn ${main_class}".java"
+	replaceIn "${main_class}.java"
 }
 
 processResources {
 	from(sourceSets.main.resources.srcDirs) {
 		include 'mcmod.info'
-		expand 'version': buildVersion, 
-			   'mcversion': "${minecraft_version}"
+		expand 'version': buildVersion,
+				'mcversion': "${minecraft_version}"
 	}
 	from(sourceSets.main.resources.srcDirs) {
 		exclude 'mcmod.info'
 	}
 }
-
-task getBuildVersion() {
-	return ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
-}
-
-
