@@ -1,3 +1,5 @@
-TrampleStopper 
+TrampleStopper
 
-A Simple Minecraft mod top stop the trampling for crops
+A mod to stop crop trampling
+
+By default, it only works when you have feather falling boots. 
