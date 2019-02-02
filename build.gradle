@@ -1,14 +1,14 @@
 buildscript {
-	repositories {
-		jcenter()
-		maven { url = "https://files.minecraftforge.net/maven" }
-	}
-	dependencies {
-		classpath 'net.minecraftforge.gradle:ForgeGradle:2.3-SNAPSHOT'
-	}
+    repositories {
+        maven { url = 'https://files.minecraftforge.net/maven' }
+        jcenter()
+        mavenCentral()
+    }
+    dependencies {
+        classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '3.+', changing: true
+    }
 }
-
-apply plugin: 'net.minecraftforge.gradle.forge'
+apply plugin: 'net.minecraftforge.gradle'
 
 def ENV = System.getenv()
 def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
@@ -21,26 +21,27 @@ archivesBaseName = "${mod_name}"
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
 
+
 minecraft {
 	if(project.hasProperty("devWorkspace")) {
-		version = project.property("minecraftVersion") + "-" + project.property("forgeVersion")
-		mappings = project.property("mappingsVersion")
+		 mappings channel: project.property("mappings_channel"), version: project.property("mappings_version") + "-" + project.project("minecraft_version")
 	}else {
-		version = "${minecraft_version}-${forge_version}"
-		mappings = "${forge_mappings}"
+		mappings channel: "{$mappings_channel}", version: "${mappings_version}" + "-" + ${"minecraft_version")
 	}
-	runDir = "run"
-	replace "@VERSION@", buildVersion
-	replaceIn "${main_class}.java"
 }
 
-processResources {
-	from(sourceSets.main.resources.srcDirs) {
-		include 'mcmod.info'
-		expand 'version': buildVersion,
-				'mcversion': "${minecraft_version}"
-	}
-	from(sourceSets.main.resources.srcDirs) {
-		exclude 'mcmod.info'
-	}
+dependencies {
+	minecraft "${forge_version}"
+}
+
+jar {
+    manifest {
+        attributes(["Specification-Title": "examplemod",
+                    "Specification-Vendor": "examplemodsareus",
+                    "Specification-Version": "24.0", // We are version 1 of the modlauncher specification
+                    "Implementation-Title": ${mod_name},
+                    "Implementation-Version": "${mod_verison}",
+                    "Implementation-Vendor" :"examplemodsareus",
+                    "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")],)
+    }
 }
