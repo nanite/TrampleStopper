@@ -31,7 +31,6 @@ public class TrampleStopper {
         }
     }
 
-
     @SubscribeEvent
     public static void onFarmlandTrampleEvent(BlockEvent.FarmlandTrampleEvent event) {
         switch (TrampleConfig.type) {
@@ -41,7 +40,7 @@ public class TrampleStopper {
                     if(itemStack.getItem() instanceof ItemArmor) {
                         ItemArmor amourItem = (ItemArmor) itemStack.getItem();
                         if(amourItem.armorType == EntityEquipmentSlot.FEET) {
-                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= 1) {
+                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= TrampleConfig.neededLevel) {
                                 event.setCanceled(true);
                                 getLogger().debug("Canceled FarmlandTrampleEvent");
                             }
@@ -72,6 +71,9 @@ public class TrampleStopper {
                 "Default: Normal behavior",
                 "Feather Falling: Does not get trampled with you have feather falling boots"})
         public static Type type = Type.FEATHER_FALLING;
+
+        @Config.Comment("Level of Feather Falling needed")
+        public static int neededLevel = 1;
 
 
     }
