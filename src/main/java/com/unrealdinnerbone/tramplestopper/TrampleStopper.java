@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 @SuppressWarnings({"WeakerAccess", "UnnecessaryEnumModifier"})
 @Mod.EventBusSubscriber
-@Mod(modid = TrampleStopper.MOD_ID, dependencies = "required:forge@[14.23.4.2725,);")
+@Mod(modid = TrampleStopper.MOD_ID, dependencies = "required:forge@[14.23.4.2725,);", acceptableRemoteVersions = "*")
 public class TrampleStopper {
 
     public static final String MOD_ID = "tramplestopper";
