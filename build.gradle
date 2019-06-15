@@ -23,7 +23,7 @@ apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Co
 
 version = '1.0.0'
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = tramplestopper'
+archivesBaseName = 'tramplestopper'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
@@ -127,20 +127,17 @@ def reobfArtifact = artifacts.add('default', reobfFile) {
 }
 
 curseforge {
-    apiKey = project.hasProperty('curseforge_apikey') ? project.curseforge_apikey : '0'
-    project {
-        id = '240633'
-        changelog = file('CHANGELOG.md')
-        changelogType = 'markdown'
-        releaseType = project.findProperty('releaseType') ?: 'alpha'
+    if (project.hasProperty('unreal_curse_api_key')){
+        apiKey = project.getProperty('unreal_curse_api_key')
     }
-    options {
-        javaVersionAutoDetect = true // defaults to true
-        javaIntegration = true // defaults to true
-        forgeGradleIntegration = true // defaults to true
+    project {
+        id = "297028"
+        changelog = getGitChangelog
+        changelogType = 'markdown'
+        releaseType = 'release'
+        addGameVersion '1.14.2'
     }
 }
-
 
 publishing {
     publications {
