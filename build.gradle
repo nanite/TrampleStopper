@@ -22,9 +22,9 @@ apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Co
 
 
 def ENV = System.getenv()
-def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
+def buildVersion = ENV.BUILD_NUMBER ? "2.0.0.${ENV.BUILD_NUMBER}" : "2.0.0.beta"
 
-version = "${minecraft_version}-" + buildVersion + "-universal"
+version = "1.14.3-" + buildVersion + "-universal"
 
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'tramplestopper'
