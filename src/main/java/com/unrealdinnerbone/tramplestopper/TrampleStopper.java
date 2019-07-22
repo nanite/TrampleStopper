@@ -1,11 +1,9 @@
-package com.example.examplemod;
+package com.unrealdinnerbone.tramplestopper;
 
-import net.minecraft.block.Blocks;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.Enchantments;
 import net.minecraft.inventory.EquipmentSlotType;
 import net.minecraft.item.ArmorItem;
-import net.minecraft.item.IArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
@@ -26,7 +24,7 @@ public class TrampleStopper
 
     private static final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
     public static ForgeConfigSpec.EnumValue<Type> type;
-    public static  ForgeConfigSpec.IntValue intValue;
+    public static ForgeConfigSpec.IntValue intValue;
 
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -46,8 +44,7 @@ public class TrampleStopper
         MinecraftForge.EVENT_BUS.register(this);
     }
 
-    private void setup(final FMLCommonSetupEvent event)
-    {
+    private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("HI");
     }
 
