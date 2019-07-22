@@ -93,7 +93,7 @@ curseforge {
         changelog = getGitChangelog
         changelogType = 'markdown'
         releaseType = 'release'
-        addGameVersion '1.14.2'
+        addGameVersion '1.14.4'
     }
 }
 
