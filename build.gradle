@@ -21,7 +21,11 @@ apply plugin: 'maven-publish'
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
 
-version = '1.0.0'
+def ENV = System.getenv()
+def buildVersion = ENV.BUILD_NUMBER ? "${mod_verison}.${ENV.BUILD_NUMBER}" : "${mod_verison}.beta"
+
+version = "${minecraft_version}-" + buildVersion + "-universal"
+
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'tramplestopper'
 
