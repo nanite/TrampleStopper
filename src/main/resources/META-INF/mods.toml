@@ -1,5 +1,5 @@
 modLoader="javafml" #mandatory
-loaderVersion="[28,)" #mandatory (26 is current forge version)
+loaderVersion="[26,)" #mandatory (26 is current forge version)
 [[mods]] #mandatory
 modId="tramplestopper" #mandatory
 version="${file.jarVersion}" #mandatory
