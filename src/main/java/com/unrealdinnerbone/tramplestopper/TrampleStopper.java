@@ -57,11 +57,11 @@ public class TrampleStopper
 
     }
 
-
     @SubscribeEvent
     public static void onCropTrample(BlockEvent.FarmlandTrampleEvent event) {
         if(type.get().getFunction().apply(THIS, event.getEntity())) {
             LOGGER.debug("Canceled FarmlandTrampleEvent");
+            event.setCanceled(true);
         }else {
             if(event.getEntity() instanceof PlayerEntity) {
                 ((PlayerEntity) event.getEntity()).addStat(FARMLAND_TRAMPLED);
