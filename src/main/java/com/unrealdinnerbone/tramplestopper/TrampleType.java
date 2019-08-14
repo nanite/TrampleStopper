@@ -28,8 +28,8 @@ public enum TrampleType {
         }
         return false;
     }),
-    NEVER((trampleConfig, entity) -> true),
-    ALWAYS((trampleConfig, entity) -> false);
+    NEVER((trampleConfig, entity) -> false),
+    ALWAYS((trampleConfig, entity) -> true);
 
     private final BiFunction<TrampleStopper, Entity, Boolean> function;
 
