@@ -98,7 +98,6 @@ curseforge {
         changelogType = 'markdown'
         releaseType = 'release'
         addGameVersion '1.14.4'
-        addGameVersion 'Forge'
 
     }
 }
