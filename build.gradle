@@ -10,7 +10,7 @@ buildscript {
 }
 
 plugins {
-    id 'com.matthewprenger.cursegradle' version '1.3.0'
+    id 'com.matthewprenger.cursegradle' version '1.4.0'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
@@ -88,6 +88,6 @@ curseforge {
         changelogType = 'markdown'
         releaseType = 'release'
         addGameVersion '1.14.4'
-
+        addGameVersion 'Forge'
     }
 }
