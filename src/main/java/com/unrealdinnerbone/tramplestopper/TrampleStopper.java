@@ -25,6 +25,7 @@ public class TrampleStopper
     public static ForgeConfigSpec.EnumValue<TrampleType> type;
     public ForgeConfigSpec.IntValue intValue;
     public static ResourceLocation FARMLAND_TRAMPLED;
+    public static ResourceLocation FARMLAND_NOT_TRAMPLED;
     private static TrampleStopper THIS;
 
 
@@ -49,6 +50,7 @@ public class TrampleStopper
     private void setup(final FMLCommonSetupEvent event) {
         LOGGER.info("HI");
         FARMLAND_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_trampled"), new ResourceLocation(MOD_ID, "farmland_trampled"));
+        FARMLAND_NOT_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_saved"), new ResourceLocation(MOD_ID, "farmland_saved"));
 
     }
 
@@ -57,7 +59,10 @@ public class TrampleStopper
         if(type.get().getFunction().apply(THIS, event.getEntity())) {
             LOGGER.debug("Canceled FarmlandTrampleEvent");
             event.setCanceled(true);
-        }else {
+            if(event.getEntity() instanceof PlayerEntity) {
+                ((PlayerEntity) event.getEntity()).addStat(FARMLAND_NOT_TRAMPLED);
+            }
+        } else {
             if(event.getEntity() instanceof PlayerEntity) {
                 ((PlayerEntity) event.getEntity()).addStat(FARMLAND_TRAMPLED);
             }
