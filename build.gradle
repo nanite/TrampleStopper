@@ -32,8 +32,18 @@ archivesBaseName = 'tramplestopper'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 minecraft {
-    mappings channel: 'snapshot', version: '20190719-1.14.3'
-  
+    mappings channel: 'snapshot', version: "${mcp_mappings}"
+
+    if(!project.hasProperty("devWorkspace")) {
+        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
+    }else {
+        if(project(":zworkspace") != null) {
+            Project project = project(":zworkspace")
+            accessTransformer = project.file('src/main/resources/META-INF/accesstransformer2.cfg')
+        }
+    }
+
+
     runs {
         client {
             workingDirectory project.file('run')
@@ -60,7 +70,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.14.4-28.1.10'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
