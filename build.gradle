@@ -31,6 +31,10 @@ archivesBaseName = 'tramplestopper'
 
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
+repositories {
+    maven { url "https/maven.tterrag.com/" }
+}
+
 minecraft {
     mappings channel: 'snapshot', version: "${mcp_mappings}"
 
@@ -97,7 +101,7 @@ curseforge {
         changelog = getGitChangelog
         changelogType = 'markdown'
         releaseType = 'release'
-        addGameVersion '1.14.4'
+        addGameVersion '1.15.2'
         addGameVersion 'Forge'
     }
 }
