@@ -6,7 +6,7 @@ pipeline {
          steps {
             sh "rm -rf build/libs/"
             sh "chmod +x gradlew"
-            sh "./gradlew build"
+            sh "./gradlew build curseforge"
 
             archiveArtifacts artifacts: '**/build/libs/*.jar'
          }
