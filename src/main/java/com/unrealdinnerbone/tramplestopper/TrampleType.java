@@ -12,15 +12,17 @@ import java.util.function.BiFunction;
 
 public enum TrampleType {
 
-    FEATHER_FALLING((trampleConfig, entity) -> {
-        if (entity instanceof PlayerEntity) {
-            PlayerEntity entityPlayer = (PlayerEntity) entity;
-            for (ItemStack itemStack : entityPlayer.getArmorInventoryList()) {
-                if (itemStack.getItem() instanceof ArmorItem) {
-                    ArmorItem armorItem = (ArmorItem) itemStack.getItem();
-                    if(armorItem.getEquipmentSlot() == EquipmentSlotType.FEET) {
-                        if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= trampleConfig.intValue.get()) {
-                            return true;
+    FEATHER_FALLING((trampleConfig, pair) -> {
+        if (pair.getA() instanceof PlayerEntity) {
+            PlayerEntity entityPlayer = (PlayerEntity) pair.getA();
+            if(pair.getB() >= trampleConfig.doubleValue.get()) {
+                for (ItemStack itemStack : entityPlayer.getArmorInventoryList()) {
+                    if (itemStack.getItem() instanceof ArmorItem) {
+                        ArmorItem armorItem = (ArmorItem) itemStack.getItem();
+                        if(armorItem.getEquipmentSlot() == EquipmentSlotType.FEET) {
+                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= trampleConfig.intValue.get()) {
+                                return true;
+                            }
                         }
                     }
                 }
@@ -31,13 +33,13 @@ public enum TrampleType {
     NEVER((trampleConfig, entity) -> true),
     ALWAYS((trampleConfig, entity) -> false);
 
-    private final BiFunction<TrampleStopper, Entity, Boolean> function;
+    private final BiFunction<TrampleStopper, TrampleStopper.Pair<Entity, Float>, Boolean> function;
 
-    TrampleType(BiFunction<TrampleStopper, Entity, Boolean> function) {
+    TrampleType(BiFunction<TrampleStopper, TrampleStopper.Pair<Entity, Float>, Boolean> function) {
         this.function = function;
     }
 
-    public BiFunction<TrampleStopper, Entity, Boolean> getFunction() {
+    public BiFunction<TrampleStopper, TrampleStopper.Pair<Entity, Float>, Boolean> getFunction() {
         return function;
     }
 }

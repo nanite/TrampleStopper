@@ -24,6 +24,7 @@ public class TrampleStopper
     private static final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
     public static ForgeConfigSpec.EnumValue<TrampleType> type;
     public ForgeConfigSpec.IntValue intValue;
+    public ForgeConfigSpec.DoubleValue doubleValue;
     public static ResourceLocation FARMLAND_TRAMPLED;
     public static ResourceLocation FARMLAND_NOT_TRAMPLED;
     private static TrampleStopper THIS;
@@ -42,6 +43,7 @@ public class TrampleStopper
                 "Feather Falling: Does not get trampled with you have feather falling boots")
                 .defineEnum("type", TrampleType.FEATHER_FALLING);
         intValue = builder.comment("Level of Feather Falling needed").defineInRange("level", 1,1,  3);
+        doubleValue = builder.comment("At how many blocks should trampling stop start").defineInRange("blocks",  0.0, 0.0, 256.0);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);
@@ -56,8 +58,7 @@ public class TrampleStopper
 
     @SubscribeEvent
     public static void onCropTrample(BlockEvent.FarmlandTrampleEvent event) {
-        if(type.get().getFunction().apply(THIS, event.getEntity())) {
-            LOGGER.debug("Canceled FarmlandTrampleEvent");
+        if(type.get().getFunction().apply(THIS, new Pair<>(event.getEntity(), event.getFallDistance()))) {
             event.setCanceled(true);
             if(event.getEntity() instanceof PlayerEntity) {
                 ((PlayerEntity) event.getEntity()).addStat(FARMLAND_NOT_TRAMPLED);
@@ -66,6 +67,25 @@ public class TrampleStopper
             if(event.getEntity() instanceof PlayerEntity) {
                 ((PlayerEntity) event.getEntity()).addStat(FARMLAND_TRAMPLED);
             }
+        }
+    }
+
+
+    public static class Pair<A,B> {
+        private final A a;
+        private final B b;
+
+        public Pair(A a, B b) {
+            this.a = a;
+            this.b = b;
+        }
+
+        public A getA() {
+            return a;
+        }
+
+        public B getB() {
+            return b;
         }
     }
 
