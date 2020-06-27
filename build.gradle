@@ -74,7 +74,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
+    minecraft 'net.minecraftforge:forge:1.16.1-32.0.24'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
@@ -101,7 +101,7 @@ curseforge {
         changelog = getGitChangelog
         changelogType = 'markdown'
         releaseType = 'release'
-        addGameVersion '1.15.2'
+        addGameVersion '1.16.1'
         addGameVersion 'Forge'
     }
 }
