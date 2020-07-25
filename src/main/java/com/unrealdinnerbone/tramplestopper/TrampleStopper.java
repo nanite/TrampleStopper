@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.tramplestopper;
 
+import com.mojang.datafixers.util.Pair;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.registry.Registry;
@@ -50,7 +51,7 @@ public class TrampleStopper
     }
 
     private void setup(final FMLCommonSetupEvent event) {
-        LOGGER.info("HI");
+        LOGGER.info("Hello");
         FARMLAND_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_trampled"), new ResourceLocation(MOD_ID, "farmland_trampled"));
         FARMLAND_NOT_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_saved"), new ResourceLocation(MOD_ID, "farmland_saved"));
 
@@ -69,26 +70,6 @@ public class TrampleStopper
             }
         }
     }
-
-
-    public static class Pair<A,B> {
-        private final A a;
-        private final B b;
-
-        public Pair(A a, B b) {
-            this.a = a;
-            this.b = b;
-        }
-
-        public A getA() {
-            return a;
-        }
-
-        public B getB() {
-            return b;
-        }
-    }
-
 
 
 }
