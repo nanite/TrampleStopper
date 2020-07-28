@@ -38,15 +38,8 @@ repositories {
 minecraft {
     mappings channel: 'snapshot', version: "${mcp_mappings}"
 
-    if(!project.hasProperty("devWorkspace")) {
-        accessTransformer = file('src/main/resources/META-INF/accesstransformer.cfg')
-    }else {
-        if(project(":zworkspace") != null) {
-            Project project = project(":zworkspace")
-            accessTransformer = project.file('src/main/resources/META-INF/accesstransformer2.cfg')
-        }
-    }
 
+    accessTransformer = this.getRootProject().file("src/main/resources/META-INF/accesstransformer.cfg")
 
     runs {
         client {

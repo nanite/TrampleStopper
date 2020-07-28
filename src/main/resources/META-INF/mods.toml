@@ -1,10 +1,8 @@
-modLoader="javafml" #mandatory
-loaderVersion="[30,)" #mandatory (26 is current forge version)
-[[mods]] #mandatory
-modId="tramplestopper" #mandatory
-version="${file.jarVersion}" #mandatory
-displayName="Trample Stopper" #mandatory
-# The description text for the mod (multi line!) (#mandatory)
-description='''
-Stops crop trampling
-'''
+modLoader="javafml"
+loaderVersion="[30,)"
+[[mods]]
+    modId="tramplestopper"
+    version="${file.jarVersion}"
+    displayName="Trample Stopper"
+    description="Stops crop trampling"
+    license="ARR"
