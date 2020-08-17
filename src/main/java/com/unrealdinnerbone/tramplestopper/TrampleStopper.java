@@ -8,11 +8,13 @@ import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +24,6 @@ public class TrampleStopper
 {
 
     public static final String MOD_ID = "tramplestopper";
-    private static final ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
     public static ForgeConfigSpec.EnumValue<TrampleType> type;
     public ForgeConfigSpec.IntValue intValue;
     public ForgeConfigSpec.DoubleValue doubleValue;
@@ -35,6 +36,7 @@ public class TrampleStopper
 
     public TrampleStopper() {
         THIS = this;
+        ForgeConfigSpec.Builder builder = new ForgeConfigSpec.Builder();
         builder.push("general");
         type = builder.comment(
                 "When should farmland get trampled",
@@ -43,8 +45,10 @@ public class TrampleStopper
                 "Default: Normal behavior",
                 "Feather Falling: Does not get trampled with you have feather falling boots")
                 .defineEnum("type", TrampleType.FEATHER_FALLING);
-        intValue = builder.comment("Level of Feather Falling needed").defineInRange("level", 1,1,  3);
-        doubleValue = builder.comment("At how many blocks should trampling stop start").defineInRange("blocks",  0.0, 0.0, 256.0);
+        intValue = builder.comment("Level of Feather Falling needed")
+                .defineInRange("level", 1,1,  3);
+        doubleValue = builder.comment("At how many blocks should trampling stop start")
+                .defineInRange("blocks",  0.0, 0.0, 256.0);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.register(this);

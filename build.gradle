@@ -24,7 +24,7 @@ apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Co
 def ENV = System.getenv()
 def buildVersion = ENV.BUILD_NUMBER ? "2.0.0.${ENV.BUILD_NUMBER}" : "2.0.0.beta"
 
-version = "1.15.2-" + buildVersion + "-universal"
+version = "1.15.6-" + buildVersion + "-universal"
 
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'tramplestopper'
@@ -32,11 +32,15 @@ archivesBaseName = 'tramplestopper'
 sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
 
 repositories {
-    maven { url "https/maven.tterrag.com/" }
+    maven {
+        url 'https://www.dogforce-games.com/maven/'
+    }
 }
 
 minecraft {
     mappings channel: 'snapshot', version: "${mcp_mappings}"
+    mappings channel: 'snapshot', version: '20200723-1.16.1'
+
 
 
     accessTransformer = this.getRootProject().file("src/main/resources/META-INF/accesstransformer.cfg")
@@ -67,7 +71,7 @@ minecraft {
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.1-32.0.24'
+    minecraft 'net.minecraftforge:forge:1.16.2-33.0.5'
 }
 
 // Example for how to get properties into the manifest for reading by the runtime..
