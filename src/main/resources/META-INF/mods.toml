@@ -1,8 +1,8 @@
 modLoader="javafml"
 loaderVersion="[30,)"
+license="ARR"
 [[mods]]
     modId="tramplestopper"
     version="${file.jarVersion}"
     displayName="Trample Stopper"
     description="Stops crop trampling"
-    license="ARR"
