@@ -1,3 +1,5 @@
+import net.minecraftforge.gradle.common.util.ModConfig
+
 buildscript {
     repositories {
         maven { url = 'https://files.minecraftforge.net/maven' }
@@ -11,79 +13,78 @@ buildscript {
 
 plugins {
     id 'com.matthewprenger.cursegradle' version '1.4.0'
+    id 'java'
 }
 
 apply plugin: 'net.minecraftforge.gradle'
-// Only edit below this line, the above code adds and enables the necessary things for Forge to be setup.
-apply plugin: 'eclipse'
-apply plugin: 'maven-publish'
 
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
 
+def theMinecraft_version = findLocalProperty("minecraft_version")
+def theForge_Version = findLocalProperty("forge_version")
+def theMappings_Version = findLocalProperty("mcp_mappings")
 
-def ENV = System.getenv()
-def buildVersion = ENV.BUILD_NUMBER ? "2.0.0.${ENV.BUILD_NUMBER}" : "2.0.0.beta"
-
-version = "1.16.2-" + buildVersion + "-universal"
+version = makeVersion()
 
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
-archivesBaseName = 'tramplestopper'
+archivesBaseName = 'TrampleStopper'
 
-sourceCompatibility = targetCompatibility = compileJava.sourceCompatibility = compileJava.targetCompatibility = '1.8' // Need this here so eclipse task generates correctly.
+sourceCompatibility = JavaVersion.VERSION_1_8
+targetCompatibility = JavaVersion.VERSION_1_8
 
-repositories {
-    maven {
-        url 'https://www.dogforce-games.com/maven/'
+
+String makeVersion() {
+    String base = project.property("version")
+    String type = project.property("type")
+    def ENV = System.getenv()
+    String buildNumber = ENV.BUILD_NUMBER ? "${ENV.BUILD_NUMBER}" : "local"
+    if(buildNumber == "local") {
+        type = "alpha"
     }
+    if(type == "alpha" || type == "beta") {
+        base += "-" + type
+    }
+    base += "+build." + buildNumber + ".mcVersion." + minecraft_version
+    return base;
 }
 
 minecraft {
-    mappings channel: 'snapshot', version: '20200723-1.16.1'
-
-
+    mappings channel: 'snapshot', version: "${theMappings_Version}"
 
     accessTransformer = this.getRootProject().file("src/main/resources/META-INF/accesstransformer.cfg")
+    ModConfig projectMod = new ModConfig(project, project.getName());
+    projectMod.source(project.sourceSets.main)
 
     runs {
         client {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
+            workingDirectory project.file('client')
+            mods.add(projectMod)
         }
-
         server {
-            workingDirectory project.file('run')
-
-            // Recommended logging data for a userdev environment
-            property 'forge.logging.markers', 'SCAN,REGISTRIES,REGISTRYDUMP'
-
-            // Recommended logging level for the console
-            property 'forge.logging.console.level', 'debug'
-
+            workingDirectory project.file('server')
+            mods.add(projectMod)
         }
     }
 }
 
 dependencies {
-    minecraft 'net.minecraftforge:forge:1.16.2-33.0.7'
+    minecraft "net.minecraftforge:forge:${theMinecraft_version}-${theForge_Version}"
 }
 
-// Example for how to get properties into the manifest for reading by the runtime..
+String findLocalProperty(String name) {
+    return this.getRootProject().property(name)
+}
+
 jar {
     manifest {
         attributes([
-            "Specification-Title": "tramplestopper",
-            "Specification-Vendor": "examplemodsareus",
-            "Specification-Version": "1", // We are version 1 of ourselves
-            "Implementation-Title": project.name,
-            "Implementation-Version": "${version}",
-            "Implementation-Vendor" :"examplemodsareus",
-            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+                "Specification-Title": "${archivesBaseName}",
+                "Specification-Vendor": "UnRealDinnerbone",
+                "Specification-Version": "${theMinecraft_version}", // We are version 1 of ourselves
+                "Implementation-Title":  "${archivesBaseName}",
+                "Implementation-Version": "${version}",
+                "Implementation-Vendor" :"UnRealDinnerbone",
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
@@ -93,11 +94,11 @@ curseforge {
         apiKey = project.getProperty('unreal_curse_api_key')
     }
     project {
-        id = "297028"
+        id = project.property("curseforge_id")
         changelog = getGitChangelog
         changelogType = 'markdown'
-        releaseType = 'release'
-        addGameVersion '1.16.2'
+        releaseType = project.property("type")
+        addGameVersion minecraft_version
         addGameVersion 'Forge'
     }
 }
