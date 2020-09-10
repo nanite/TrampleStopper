@@ -51,7 +51,7 @@ public class TrampleStopper
                 .defineInRange("blocks",  0.0, 0.0, 256.0);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        MinecraftForge.EVENT_BUS.register(this);
+        MinecraftForge.EVENT_BUS.addListener(TrampleStopper::onCropTrample);
     }
 
     private void setup(final FMLCommonSetupEvent event) {
@@ -74,6 +74,4 @@ public class TrampleStopper
             }
         }
     }
-
-
 }
