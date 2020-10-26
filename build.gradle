@@ -19,34 +19,19 @@ plugins {
 apply plugin: 'net.minecraftforge.gradle'
 
 apply from: 'https://raw.githubusercontent.com/MinecraftModDevelopment/Gradle-Collection/master/generic/markdown-git-changelog.gradle'
+apply from: "https://raw.githubusercontent.com/UnRealDinnerbone/GradleHelpers/master/version.gradle"
 
 def theMinecraft_version = findLocalProperty("minecraft_version")
 def theForge_Version = findLocalProperty("forge_version")
 def theMappings_Version = findLocalProperty("mcp_mappings")
 
-version = makeVersion()
+version = getVersionNumber()
 
 group = 'com.unrealdinnerbone.tramplestopper' // http://maven.apache.org/guides/mini/guide-naming-conventions.html
 archivesBaseName = 'TrampleStopper'
 
 sourceCompatibility = JavaVersion.VERSION_1_8
 targetCompatibility = JavaVersion.VERSION_1_8
-
-
-String makeVersion() {
-    String base = project.property("version")
-    String type = project.property("type")
-    def ENV = System.getenv()
-    String buildNumber = ENV.BUILD_NUMBER ? "${ENV.BUILD_NUMBER}" : "local"
-    if(buildNumber == "local") {
-        type = "alpha"
-    }
-    if(type == "alpha" || type == "beta") {
-        base += "-" + type
-    }
-    base += "+build." + buildNumber + ".mcVersion." + minecraft_version
-    return base;
-}
 
 minecraft {
     mappings channel: 'snapshot', version: "${theMappings_Version}"
