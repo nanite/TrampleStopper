@@ -25,6 +25,6 @@ jobs:
         chmod +x gradlew
         ./gradlew build
     - uses: actions/upload-artifact@v2
-        with:
-          name: Artifacts
-          path: build/libs/
+      with:
+        name: Artifacts
+        path: build/libs/
