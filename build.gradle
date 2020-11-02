@@ -92,6 +92,9 @@ task signJar(type: SignJar, dependsOn: jar) {
         doLast {
             file.delete()
         }
+        println("alias:" + System.getenv().get("alias"))
+        println("storePass:" + System.getenv().get("storePass"))
+        println("keyPass:" + System.getenv().get("keyPass"))
     }
 }
 
