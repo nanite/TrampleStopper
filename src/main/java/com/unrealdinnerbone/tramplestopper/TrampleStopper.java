@@ -44,7 +44,7 @@ public class TrampleStopper
                 "Always: It Always get trampled",
                 "Default: Normal behavior",
                 "Feather Falling: Does not get trampled with you have feather falling boots")
-                .defineEnum("type", TrampleType.FEATHER_FALLING);
+                .defineEnum("type", TrampleType.NEVER);
         intValue = builder.comment("Level of Feather Falling needed")
                 .defineInRange("level", 1,1,  3);
         doubleValue = builder.comment("At how many blocks should trampling stop start")
