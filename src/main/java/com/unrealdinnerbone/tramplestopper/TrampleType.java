@@ -16,12 +16,12 @@ public enum TrampleType {
     FEATHER_FALLING((trampleConfig, pair) -> {
         if (pair.getFirst() instanceof PlayerEntity) {
             PlayerEntity entityPlayer = (PlayerEntity) pair.getFirst();
-            if(pair.getSecond() >= trampleConfig.doubleValue.get()) {
+            if(pair.getSecond() >= trampleConfig.DOUBLE_VALUE.getT()) {
                 for (ItemStack itemStack : entityPlayer.getArmorInventoryList()) {
                     if (itemStack.getItem() instanceof ArmorItem) {
                         ArmorItem armorItem = (ArmorItem) itemStack.getItem();
                         if(armorItem.getEquipmentSlot() == EquipmentSlotType.FEET) {
-                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= trampleConfig.intValue.get()) {
+                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= trampleConfig.INT_VAUE.getT()) {
                                 return true;
                             }
                         }
