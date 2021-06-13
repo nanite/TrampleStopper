@@ -25,13 +25,11 @@ public class TrampleStopper
 
     public static final String MOD_ID = "tramplestopper";
     public static ForgeConfigSpec.EnumValue<TrampleType> type;
-    private static ForgeConfigSpec.IntValue intValue;
-    private static ForgeConfigSpec.DoubleValue doubleValue;
+    public static ForgeConfigSpec.IntValue intValue;
+    public static ForgeConfigSpec.DoubleValue doubleValue;
     public static ResourceLocation FARMLAND_TRAMPLED;
     public static ResourceLocation FARMLAND_NOT_TRAMPLED;
     private static TrampleStopper THIS;
-    public CacheStore<Double> DOUBLE_VALUE = new CacheStore<>(() -> doubleValue.get());
-    public CacheStore<Integer> INT_VAUE = new CacheStore<>(() -> intValue.get());
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -52,7 +50,6 @@ public class TrampleStopper
                 .defineInRange("blocks",  0.0, 0.0, 256.0);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::onConfigReloaded);
         MinecraftForge.EVENT_BUS.addListener(TrampleStopper::onCropTrample);
     }
 
@@ -61,13 +58,6 @@ public class TrampleStopper
         FARMLAND_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_trampled"), new ResourceLocation(MOD_ID, "farmland_trampled"));
         FARMLAND_NOT_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_saved"), new ResourceLocation(MOD_ID, "farmland_saved"));
 
-    }
-
-    public void onConfigReloaded(ModConfig.Reloading event) {
-        if(event.getConfig().getModId().equals(MOD_ID)) {
-            DOUBLE_VALUE.clear();
-            INT_VAUE.clear();
-        }
     }
 
     @SubscribeEvent
