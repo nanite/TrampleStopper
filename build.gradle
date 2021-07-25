@@ -64,7 +64,7 @@ curseforge {
     }
     project {
         id = project.property("curseforge_id")
-        changelog = getGitChangelog
+        changelog = "Todo"
         changelogType = 'markdown'
         releaseType = project.property("type")
         addGameVersion minecraft_version
