@@ -1,20 +1,18 @@
-package com.unrealdinnerbone.tramplestopper;
+package tramplestopper;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.ExtensionPoint;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.fml.network.FMLNetworkConstants;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -64,12 +62,12 @@ public class TrampleStopper
     public static void onCropTrample(BlockEvent.FarmlandTrampleEvent event) {
         if(type.get().getFunction().apply(THIS, new Pair<>(event.getEntity(), event.getFallDistance()))) {
             event.setCanceled(true);
-            if(event.getEntity() instanceof PlayerEntity) {
-                ((PlayerEntity) event.getEntity()).addStat(FARMLAND_NOT_TRAMPLED);
+            if(event.getEntity() instanceof Player) {
+                ((Player) event.getEntity()).awardStat(FARMLAND_NOT_TRAMPLED);
             }
         } else {
-            if(event.getEntity() instanceof PlayerEntity) {
-                ((PlayerEntity) event.getEntity()).addStat(FARMLAND_TRAMPLED);
+            if(event.getEntity() instanceof Player) {
+                ((Player) event.getEntity()).awardStat(FARMLAND_TRAMPLED);
             }
         }
     }

@@ -1,27 +1,27 @@
-package com.unrealdinnerbone.tramplestopper;
+package tramplestopper;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ItemStack;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.function.BiFunction;
 
 public enum TrampleType {
 
     FEATHER_FALLING((trampleConfig, pair) -> {
-        if (pair.getFirst() instanceof PlayerEntity) {
-            PlayerEntity entityPlayer = (PlayerEntity) pair.getFirst();
-            if(pair.getSecond() >= trampleConfig.doubleValue.get()) {
-                for (ItemStack itemStack : entityPlayer.getArmorInventoryList()) {
+        if (pair.getFirst() instanceof Player) {
+            Player entityPlayer = (Player) pair.getFirst();
+            if(pair.getSecond() >= TrampleStopper.doubleValue.get()) {
+                for (ItemStack itemStack : entityPlayer.getArmorSlots()) {
                     if (itemStack.getItem() instanceof ArmorItem) {
                         ArmorItem armorItem = (ArmorItem) itemStack.getItem();
-                        if(armorItem.getEquipmentSlot() == EquipmentSlotType.FEET) {
-                            if (EnchantmentHelper.getEnchantmentLevel(Enchantments.FEATHER_FALLING, itemStack) >= trampleConfig.intValue.get()) {
+                        if(armorItem.getSlot() == EquipmentSlot.FEET) {
+                            if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FALL_PROTECTION, itemStack) >= TrampleStopper.intValue.get()) {
                                 return true;
                             }
                         }
