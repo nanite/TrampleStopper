@@ -1,27 +1,26 @@
 package tramplestopper;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.Enchantments;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.ArmorItem;
-import net.minecraft.item.ItemStack;
-
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ArmorItem;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.enchantment.EnchantmentHelper;
+import net.minecraft.world.item.enchantment.Enchantments;
 
 import java.util.function.BiFunction;
 
 public enum TrampleType {
 
     FEATHER_FALLING((trampleConfig, pair) -> {
-        if (pair.getFirst() instanceof PlayerEntity) {
-            PlayerEntity entityPlayerEntity = (PlayerEntity) pair.getFirst();
+        if (pair.getFirst() instanceof Player) {
+            Player entityPlayerEntity = (Player) pair.getFirst();
             if(pair.getSecond() >= TrampleStopper.doubleValue.get()) {
                 for (ItemStack itemStack : entityPlayerEntity.getArmorSlots()) {
                     if (itemStack.getItem() instanceof ArmorItem) {
                         ArmorItem armorItem = (ArmorItem) itemStack.getItem();
-                        if(armorItem.getSlot() == EquipmentSlotType.FEET) {
+                        if(armorItem.getSlot() == EquipmentSlot.FEET) {
                             if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FALL_PROTECTION, itemStack) >= TrampleStopper.intValue.get()) {
                                 return true;
                             }

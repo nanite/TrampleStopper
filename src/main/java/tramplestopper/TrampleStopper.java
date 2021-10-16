@@ -1,9 +1,9 @@
 package tramplestopper;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.registry.Registry;
+import net.minecraft.core.Registry;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.world.BlockEvent;
@@ -62,12 +62,12 @@ public class TrampleStopper
     public static void onCropTrample(BlockEvent.FarmlandTrampleEvent event) {
         if(type.get().getFunction().apply(THIS, new Pair<>(event.getEntity(), event.getFallDistance()))) {
             event.setCanceled(true);
-            if(event.getEntity() instanceof PlayerEntity) {
-                ((PlayerEntity) event.getEntity()).awardStat(FARMLAND_NOT_TRAMPLED);
+            if(event.getEntity() instanceof Player player) {
+                player.awardStat(FARMLAND_NOT_TRAMPLED);
             }
         } else {
-            if(event.getEntity() instanceof PlayerEntity) {
-                ((PlayerEntity) event.getEntity()).awardStat(FARMLAND_TRAMPLED);
+            if(event.getEntity() instanceof Player player) {
+                player.awardStat(FARMLAND_TRAMPLED);
             }
         }
     }
