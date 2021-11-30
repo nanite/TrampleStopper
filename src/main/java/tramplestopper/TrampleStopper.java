@@ -55,7 +55,6 @@ public class TrampleStopper
         LOGGER.info("Hello");
         FARMLAND_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_trampled"), new ResourceLocation(MOD_ID, "farmland_trampled"));
         FARMLAND_NOT_TRAMPLED = Registry.register(Registry.CUSTOM_STAT, new ResourceLocation(MOD_ID, "farmland_saved"), new ResourceLocation(MOD_ID, "farmland_saved"));
-
     }
 
     @SubscribeEvent

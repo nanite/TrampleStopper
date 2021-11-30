@@ -14,12 +14,10 @@ import java.util.function.BiFunction;
 public enum TrampleType {
 
     FEATHER_FALLING((trampleConfig, pair) -> {
-        if (pair.getFirst() instanceof Player) {
-            Player entityPlayerEntity = (Player) pair.getFirst();
+        if (pair.getFirst() instanceof Player player) {
             if(pair.getSecond() >= TrampleStopper.doubleValue.get()) {
-                for (ItemStack itemStack : entityPlayerEntity.getArmorSlots()) {
-                    if (itemStack.getItem() instanceof ArmorItem) {
-                        ArmorItem armorItem = (ArmorItem) itemStack.getItem();
+                for (ItemStack itemStack : player.getArmorSlots()) {
+                    if (itemStack.getItem() instanceof ArmorItem armorItem) {
                         if(armorItem.getSlot() == EquipmentSlot.FEET) {
                             if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FALL_PROTECTION, itemStack) >= TrampleStopper.intValue.get()) {
                                 return true;
