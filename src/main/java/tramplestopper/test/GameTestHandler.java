@@ -40,7 +40,7 @@ public class GameTestHandler {
         BlockState block = helper.getBlockState(blockPos);
         block.getBlock().fallOn(helper.getLevel(), block, helper.absolutePos(blockPos), zombie,5.0f);
         helper.assertBlockState(blockPos, b -> b.is(Blocks.FARMLAND), () -> "Block is not farmland");
-//        helper.succeed();
+        helper.succeed();
     }
 
 }
