@@ -39,6 +39,7 @@ minecraft {
         client {
             workingDirectory project.file('run')
             mods.add(projectMod)
+            property 'forge.enableGameTest', 'true'
         }
 
         server {
@@ -49,6 +50,11 @@ minecraft {
         data {
             workingDirectory project.file('data')
             args '--mod', project.mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+            mods.add(projectMod)
+        }
+
+        gameTestServer {
+            workingDirectory project.file("game_test")
             mods.add(projectMod)
         }
     }

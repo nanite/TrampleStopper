@@ -1,0 +1,27 @@
+name: Build & Release
+
+on:
+  push:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 30 # Gets the last 30 commits so the changelog might work
+      - name: Set up JDK 1.16
+        uses: actions/setup-java@v2
+        with:
+          java-version: '16'
+          distribution: 'adopt'
+          cache: 'gradle'
+      - name: Test
+        env:
+          GIT_COMMIT: ${{ github.event.after }}
+          GIT_PREVIOUS_COMMIT: ${{ github.event.before }}
+          NANITE_DEPLOY: ${{ secrets.NANITE_DEPLOY  }}
+          CURSE_DEPLOY: ${{ secrets.CURSE_DEPLOY }}
+        run: |
+          chmod +x ./gradlew
+          ./gradlew runGameTestServer --stacktrace --no-daemon

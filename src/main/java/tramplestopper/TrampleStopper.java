@@ -6,6 +6,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.RegisterGameTestsEvent;
 import net.minecraftforge.event.world.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
@@ -15,6 +16,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import tramplestopper.test.GameTestHandler;
 
 @Mod(TrampleStopper.MOD_ID)
 @Mod.EventBusSubscriber
@@ -49,6 +51,13 @@ public class TrampleStopper
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.addListener(TrampleStopper::onCropTrample);
+
+        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerGameTest);
+    }
+
+
+    public void registerGameTest(RegisterGameTestsEvent event) {
+        event.register(GameTestHandler.class);
     }
 
     private void setup(final FMLCommonSetupEvent event) {

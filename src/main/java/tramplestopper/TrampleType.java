@@ -3,6 +3,7 @@ package tramplestopper;
 import com.mojang.datafixers.util.Pair;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlot;
+import net.minecraft.world.entity.Mob;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ArmorItem;
 import net.minecraft.world.item.ItemStack;
@@ -14,9 +15,9 @@ import java.util.function.BiFunction;
 public enum TrampleType {
 
     FEATHER_FALLING((trampleConfig, pair) -> {
-        if (pair.getFirst() instanceof Player player) {
+        if (pair.getFirst() instanceof Mob mob) {
             if(pair.getSecond() >= TrampleStopper.doubleValue.get()) {
-                for (ItemStack itemStack : player.getArmorSlots()) {
+                for (ItemStack itemStack : mob.getArmorSlots()) {
                     if (itemStack.getItem() instanceof ArmorItem armorItem) {
                         if(armorItem.getSlot() == EquipmentSlot.FEET) {
                             if (EnchantmentHelper.getItemEnchantmentLevel(Enchantments.FALL_PROTECTION, itemStack) >= TrampleStopper.intValue.get()) {
