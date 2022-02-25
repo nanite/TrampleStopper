@@ -24,4 +24,4 @@ jobs:
           CURSE_DEPLOY: ${{ secrets.CURSE_DEPLOY }}
         run: |
           chmod +x ./gradlew
-          ./gradlew runGameTestServer --stacktrace
+          ./gradlew runGameTestServer --stacktrace --no-daemon
