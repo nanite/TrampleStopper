@@ -70,13 +70,9 @@ public class TrampleStopper
     public static void onCropTrample(BlockEvent.FarmlandTrampleEvent event) {
         if(type.get().getFunction().apply(THIS, new Pair<>(event.getEntity(), event.getFallDistance()))) {
             event.setCanceled(true);
-            if(event.getEntity() instanceof Player player) {
-                player.awardStat(FARMLAND_NOT_TRAMPLED);
-            }
-        } else {
-            if(event.getEntity() instanceof Player player) {
-                player.awardStat(FARMLAND_TRAMPLED);
-            }
+        }
+        if(event.getEntity() instanceof Player player) {
+            player.awardStat(event.isCanceled() ? FARMLAND_NOT_TRAMPLED : FARMLAND_TRAMPLED);
         }
     }
 }

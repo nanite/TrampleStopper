@@ -38,3 +38,5 @@ LICENSE-fml.txt
 run/*
 
 logs/
+
+game_test/
