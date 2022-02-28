@@ -56,7 +56,7 @@ minecraft {
         gameTestServer {
             workingDirectory project.file("game_test")
             mods.add(projectMod)
-            forceExit: false
+            setForceExit(false)
         }
     }
 }
