@@ -21,15 +21,13 @@ import java.util.List;
 public class GameTestHandler {
 
     @GameTestGenerator
-    public static List<TestFunction> generateTests()
-    {
-        TestFunction testStone = new TestFunction("defaultBatch", "farmland_test", new ResourceLocation(TrampleStopper.MOD_ID, "farmland_test").toString(), Rotation.NONE, 100, 0, true, GameTestHandler::farmlandTest);
+    public static List<TestFunction> generateTests() {
+        TestFunction testStone = new TestFunction("farmland_test", "farmland_test", new ResourceLocation(TrampleStopper.MOD_ID, "farmland_test").toString(), Rotation.NONE, 100, 0, true, GameTestHandler::farmlandTest);
         return List.of(testStone);
     }
 
 
     public static void farmlandTest(GameTestHelper helper) {
-
         BlockPos blockPos = new BlockPos(0, 1, 0);
         Zombie zombie = EntityType.ZOMBIE.create(helper.getLevel());
         ItemStack itemStack = new ItemStack(Items.DIAMOND_BOOTS);
