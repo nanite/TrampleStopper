@@ -56,9 +56,11 @@ minecraft {
         gameTestServer {
             workingDirectory project.file("game_test")
             mods.add(projectMod)
+            forceExit: false
         }
     }
 }
+
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
