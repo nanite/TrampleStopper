@@ -1,4 +1,4 @@
-name: Build & Release
+name: Run Test
 
 env:
   GRADLE_OPTS: -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=2g -XX:+HeapDumpOnOutOfMemoryError -Dfile.encoding=UTF-8"
