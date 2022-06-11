@@ -46,9 +46,9 @@ public class TrampleStopper
                 .defineEnum("type", TrampleType.NEVER);
         intValue = builder.comment("Level of Feather Falling needed")
                 .defineInRange("level", 1,1,  3);
-        doubleValue = builder.comment("At how many blocks should trampling stop start")
-                .defineInRange("blocks",  0.0, 0.0, 256.0);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, builder.build());
+        doubleValue = builder.comment("At how many blocks should trampling stop start")
+                .defineInRange("blocks",  0.0, 0, Short.MAX_VALUE);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.addListener(TrampleStopper::onCropTrample);
 
