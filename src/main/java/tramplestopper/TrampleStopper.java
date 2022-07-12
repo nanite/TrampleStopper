@@ -8,7 +8,7 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.RegisterGameTestsEvent;
-import net.minecraftforge.event.world.BlockEvent;
+import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
