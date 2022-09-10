@@ -59,6 +59,7 @@ public class TrampleStopper
                 .defineInRange("blocks",  0.0, 0, Short.MAX_VALUE);
         FARMLAND_TRAMPLED = STATS.register("farmland_trampled", () -> new ResourceLocation(MOD_ID, "farmland_trampled"));
         FARMLAND_NOT_TRAMPLED = STATS.register("farmland_not_trampled", () -> new ResourceLocation(MOD_ID, "farmland_not_trampled"));
+        STATS.register(FMLJavaModLoadingContext.get().getModEventBus());
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
         MinecraftForge.EVENT_BUS.addListener(TrampleStopper::onCropTrample);
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::registerGameTest);
