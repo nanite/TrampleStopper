@@ -1,9 +1,8 @@
 package tramplestopper;
 
 import com.mojang.datafixers.util.Pair;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.stats.StatType;
 import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.common.ForgeConfigSpec;
 import net.minecraftforge.common.MinecraftForge;
@@ -16,13 +15,10 @@ import net.minecraftforge.fml.config.ModConfig;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import tramplestopper.test.GameTestHandler;
-
-import java.util.function.Supplier;
 
 @Mod(TrampleStopper.MOD_ID)
 @Mod.EventBusSubscriber
@@ -37,7 +33,7 @@ public class TrampleStopper
     public static RegistryObject<ResourceLocation> FARMLAND_NOT_TRAMPLED;
     private static TrampleStopper THIS;
 
-    private static final DeferredRegister<ResourceLocation> STATS = DeferredRegister.create(Registry.CUSTOM_STAT_REGISTRY, MOD_ID);
+    private static final DeferredRegister<ResourceLocation> STATS = DeferredRegister.create(Registries.CUSTOM_STAT, MOD_ID);
 
     private static final Logger LOGGER = LogManager.getLogger();
 
