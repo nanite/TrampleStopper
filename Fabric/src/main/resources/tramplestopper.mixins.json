@@ -1,0 +1,14 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.unrealdinnerbone.tramplestopper.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "refmap": "tramplestopper.refmap.json",
+  "mixins": [
+    "FarmBlockMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
+  

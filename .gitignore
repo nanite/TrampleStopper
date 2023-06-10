@@ -1,42 +1,23 @@
-# Yarm #
-*.class
-/run
-run\
-apples.test
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
-# Package Files #
-*.war
-*.ear
-
-# IDEA Files #
-*.iml
+# idea
+out
 *.ipr
 *.iws
-/.idea
+*.iml
+.idea/*
+!.idea/scopes
 
-# Eclipse #
-/bin
-/.settings
-/.classpath
-/eclipse
-/.project
-/.metadata
+# gradle
+build
+.gradle
 
-# Gradle #
-/classes
-/.gradle
-/out
-/build
-/libs
-/lib
-
-MinecraftForge-Credits.txt
-README.txt
-CREDITS-fml.txt
-LICENSE-fml.txt
-
-run/*
-
-logs/
-
-game_test/
+# other
+eclipse
+run
