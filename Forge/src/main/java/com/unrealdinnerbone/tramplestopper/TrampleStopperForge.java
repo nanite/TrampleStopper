@@ -1,5 +1,6 @@
 package com.unrealdinnerbone.tramplestopper;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.level.BlockEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -9,7 +10,7 @@ public class TrampleStopperForge {
     
     public TrampleStopperForge() {
         TrampleStopper.init();
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(TrampleStopperForge::onData);
+        MinecraftForge.EVENT_BUS.addListener(TrampleStopperForge::onData);
     }
 
     private static void onData(BlockEvent.FarmlandTrampleEvent event) {
