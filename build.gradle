@@ -1,77 +1,131 @@
+plugins {
+    id("dev.nanite.mlp") version("0.1.1")
+    id("java-library")
+    id("maven-publish")
+    id("me.modmuss50.mod-publish-plugin") version "0.3.0"
+}
+
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(17)
+
+multiLoader.root() {
+    minecraftVersion.set(project.property("minecraft_version"))
+    modID.set(project.property("mod_id"))
+    splitSources.set(true)
+}
+
+allprojects {
+    def isSnapshot = providers.environmentVariable("SNAPSHOT").map {it == "true"}.getOrElse(false)
+    version = "${mod_version}+mc${minecraft_version}${isSnapshot ? '-SNAPSHOT' : ''}"
+    setArchivesBaseName("${mod_name}-${project.name}".toLowerCase())
+    group = "com.unrealdinnerbone"
+
+
+}
+
 subprojects {
 
-    apply plugin: 'java'
+
+    apply plugin: 'java-library'
+    apply plugin: 'maven-publish'
+    apply plugin: 'dev.nanite.mlp'
+
+
+    sourceSets.main.resources.srcDir project.file('src/generated/resources')
 
     java.toolchain.languageVersion = JavaLanguageVersion.of(17)
 
-    def env = System.getenv();
-    def isSnapshot = env.SNAPSHOT == "true"
-    ext.ENV = env
-    ext.SNAPSHOT = isSnapshot
 
-    version = "${parent.mod_version}+mc${parent.minecraft_version}${isSnapshot ? '-SNAPSHOT' : ''}"
-    group = parent.maven_group
-
-    jar {
-        from(rootProject.file("LICENSE")) {
-            rename { "${it}_${mod_name}" }
-        }
-        manifest {
-            attributes([
-                    'Specification-Title'     : mod_name,
-                    'Specification-Vendor'    : mod_author,
-                    'Specification-Version'   : project.jar.archiveVersion,
-                    'Implementation-Title'    : project.name,
-                    'Implementation-Version'  : project.jar.archiveVersion,
-                    'Implementation-Vendor'   : mod_author,
-                    'Implementation-Timestamp': new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                    'Timestamp'               : System.currentTimeMillis(),
-                    'Built-On-Java'           : "${System.getProperty('java.vm.version')} (${System.getProperty('java.vm.vendor')})",
-                    'Built-On-Minecraft'      : minecraft_version
-            ])
-        }
+    base {
+        archivesName = "${project.property("mod_name")}-${project.name}".toLowerCase()
     }
-
     repositories {
-        mavenCentral()
         maven {
-            name = 'Sponge / Mixin'
-            url = 'https://repo.spongepowered.org/repository/maven-public/'
+            name = "Creeperhost"
+            url = uri("https://maven.creeperhost.net/")
         }
         maven {
-            name = 'Nanite Releases'
-            url = 'https://maven.nanite.dev/releases'
+            name = "Nanite"
+            url = "https://maven.nanite.dev/releases"
+        }
+    }
+    tasks.withType(ProcessResources).configureEach {
+        outputs.upToDateWhen { false }
+    }
+
+    publishing {
+        repositories {
+            if (providers.environmentVariable("NANITE_TOKEN").isPresent()) {
+                maven {
+                    def isSnapshot = providers.environmentVariable("SNAPSHOT").map {it == "true"}.getOrElse(false)
+                    url "https://maven.nanite.dev/${isSnapshot ? 'snapshots' : 'releases'}"
+                    credentials {
+                        username = "nanite"
+                        password = providers.environmentVariable("NANITE_TOKEN").get()
+                    }
+                }
+            }
+        }
+        publications {
+            register("mavenJava", MavenPublication) {
+                groupId project.group
+                artifactId project.getArchivesBaseName()
+            }
         }
     }
 
-    tasks.withType(JavaCompile) {
-        options.encoding = "UTF-8"
-        options.release = 17
-    }
 
-
-    sourceSets.main.resources.srcDir 'src/generated/resources'
-
-    java {
-        withSourcesJar()
-    }
-
-    processResources {
-
-        def buildProps = project.properties.clone()
-
-        buildProps.put('file', [jarVersion: project.version])
-
-        filesMatching(['pack.mcmeta', 'fabric.mod.json', 'META-INF/mods.toml']) {
-
-            expand buildProps
-        }
-    }
 }
 
 
-task curseforgePublish {
-    doLast {
-        println "Hello from ${project.name}!"
+publishMods {
+    dryRun = providers.environmentVariable("CURSE_TOKEN").getOrNull() == null
+    changelog = file("./CHANGELOG.md").text
+    version = "${mod_version}"
+    type = STABLE
+
+    def fabricOptions = publishOptions {
+        file = project.provider { project(":fabric").tasks.remapJar }.flatMap { it.archiveFile }
+        displayName = "${project.name} Fabric ${mod_version}+mc${minecraft_version}"
+        modLoaders.add("fabric")
     }
+
+    def forgeOptions = publishOptions {
+        file = project.provider { project(":forge").tasks.jar }.flatMap { it.archiveFile }
+        displayName = "${project.name} Forge ${mod_version}+mc${minecraft_version}"
+        modLoaders.add("forge")
+    }
+
+    def neoOptions = publishOptions {
+        file = project.provider { project(":neo").tasks.jar }.flatMap { it.archiveFile }
+        displayName = "${project.name} Neo ${mod_version}+mc${minecraft_version}"
+        modLoaders.add("neoforge")
+    }
+
+
+    def curseForgeOptions = curseforgeOptions {
+        accessToken = providers.environmentVariable("CURSE_TOKEN")
+        projectId = "${curse_id}"
+        minecraftVersions.add("${minecraft_version}")
+    }
+
+    curseforge("curseforgeFabric") {
+        from(curseForgeOptions, fabricOptions)
+        requires {
+            slug = "fabric-api"
+        }
+    }
+
+    curseforge("curseforgeForge") {
+        from(curseForgeOptions, forgeOptions)
+    }
+
+    curseforge("curseforgeNeoForge") {
+        from(curseForgeOptions, neoOptions)
+    }
+
 }
+
+
+
+

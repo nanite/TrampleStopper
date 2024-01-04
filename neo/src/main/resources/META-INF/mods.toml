@@ -1,0 +1,30 @@
+modLoader="javafml"
+loaderVersion="[1,)"
+license="All Rights Reserved unless stated otherwise. Distribution permission is given to FeedTheBeast and CurseForge for use in modpacks"
+[[mods]]
+modId="tramplestopper"
+version="${mod_version}"
+displayName="Trample Stopper"
+logoFile="logo.png"
+authors="UnRealDinnerbone"
+description='''
+Stops Farmland Trampling
+'''
+[[dependencies.tramplestopper]]
+modId = "neoforge"
+required = true
+versionRange = "[1.0,)"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.tramplestopper]]
+modId = "minecraft"
+required = true
+versionRange = "[${minecraft_version}]"
+ordering = "NONE"
+side = "BOTH"
+[[dependencies.tramplestopper]]
+modId = "trenzalore"
+required = true
+versionRange = "[${trenzalore_version},)"
+ordering = "NONE"
+side = "BOTH"
