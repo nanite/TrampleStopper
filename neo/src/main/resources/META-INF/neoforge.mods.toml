@@ -10,21 +10,3 @@ authors="UnRealDinnerbone"
 description='''
 Stops Farmland Trampling
 '''
-[[dependencies.tramplestopper]]
-modId = "neoforge"
-required = true
-versionRange = "[1.0,)"
-ordering = "NONE"
-side = "BOTH"
-[[dependencies.tramplestopper]]
-modId = "minecraft"
-required = true
-versionRange = "[${minecraft_version}]"
-ordering = "NONE"
-side = "BOTH"
-[[dependencies.tramplestopper]]
-modId = "trenzalore"
-required = true
-versionRange = "[${trenzalore_version},)"
-ordering = "NONE"
-side = "BOTH"
