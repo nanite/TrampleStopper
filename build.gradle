@@ -40,6 +40,8 @@ publishMods {
         accessToken = providers.environmentVariable("CURSE_TOKEN")
         projectId = "${curse_id}"
         minecraftVersions.add("${minecraft_version}")
+        client = true
+        server = true
     }
 
     curseforge("curseforgeFabric") {
