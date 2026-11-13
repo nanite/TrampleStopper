@@ -2,7 +2,7 @@ plugins {
     id("dev.nanite.mlp") version("0.7.0")
     id("java-library")
     id("maven-publish")
-    id("me.modmuss50.mod-publish-plugin") version "0.3.0"
+    id("me.modmuss50.mod-publish-plugin") version "2.1.0"
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.0'
 }
 
