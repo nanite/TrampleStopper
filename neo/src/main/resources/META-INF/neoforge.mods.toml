@@ -5,7 +5,6 @@ license="All Rights Reserved unless stated otherwise. Distribution permission is
 modId="tramplestopper"
 version="${mod_version}"
 displayName="Trample Stopper"
-logoFile="logo.png"
 authors="UnRealDinnerbone"
 description='''
 Stops Farmland Trampling
